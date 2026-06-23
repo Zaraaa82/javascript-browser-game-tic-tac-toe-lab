@@ -8,14 +8,17 @@ const resetBtnEl =  document.querySelector('#reset');
 /*-------------------------------- Constants --------------------------------*/
 const board =['', '', '','', '', '','', '', ''];
 const winningCombos = [
+    // Horizontally
     [0,1,2],
     [3,4,5],
     [6,7,8],
 
+    // Vertically
     [0,3,6],
     [1,4,7],
     [2,5,8],
     
+    // Diagonally
     [0,4,8],
     [2,4,6]
 
@@ -32,20 +35,9 @@ let squareIndex = -1;
 
 
 /*-------------------------------- Functions --------------------------------*/
-function render(){
-    updateBoard();
-    updateMessage();
-}
 
-function updateBoard(){
-    board.forEach((cell, index) => {
-        squareEls[index].textContent = cell;
-        if(cell)
-            squareEls[index].classList.add('filled');
-        else
-            squareEls[index].classList.remove('filled');
-    })
-}
+// Set the initial appearance of all squares
+resetSquareStates();
 
 function init(){
     board.forEach((sqr,index) =>{
@@ -55,15 +47,71 @@ function init(){
     winner = false;
     tie = false; 
     squareIndex = -1;
-    messageEl.style.color = 'black';
-    squareEls.forEach(sqr=>{
-        sqr.style.backgroundColor = '';
-        sqr.classList.remove('blocked');
-        sqr.classList.remove('filled');
-    })
+    resetSquareStates();
     render();
 }
 
+function handleClick(element){
+    if(!element.textContent && !winner && !tie){
+        const index = Number(element.id);
+        squareIndex = index;
+        placePiece();
+        setSquareState(squareEls[index],'filled');
+        checkForWinner();
+        checkForTie();
+        switchPlayerTurn();
+        render();
+    }
+}
+
+function placePiece(){
+    board[squareIndex] = turn;
+}
+
+function checkForWinner(){
+    for(let combo of winningCombos){
+        let [A,B,C] = combo;
+
+        if(board[A] && board[A]===board[B] && board[B]===board[C]){
+            winner = true;
+            highlightWin(combo);
+            break;
+        }
+    }
+}
+
+function checkForTie(){
+    if(winner)
+        return;
+
+    for(let sqr of board){
+        if(!sqr)
+            return;
+    }
+    
+    tie = true;
+    highlightTie();
+}
+
+function switchPlayerTurn(){
+    if(!winner){
+        if(turn === 'X')
+            turn = 'O';
+        else
+            turn = 'X';
+    }
+
+}
+function render(){
+    updateBoard();
+    updateMessage();
+}
+
+function updateBoard(){
+    board.forEach((sqr, index) => {
+        squareEls[index].textContent = sqr;
+    })
+}
 
 function updateMessage(){
     if(!winner && !tie){
@@ -75,59 +123,37 @@ function updateMessage(){
     }else{
         messageEl.textContent = turn + ' wins!';
         messageEl.style.color = 'green';
-        squareEls.forEach(sqr=>{
-            if(sqr.textContent == ''){
-                sqr.classList.add('blocked');
-            }
-        })
     }
+} 
+
+
+// Functions for updating square appearance:
+function setSquareState(sqr,state){
+    sqr.className = 'sqr ' + state;
 }
 
-function handleClick(element){
-    if(!element.textContent && !winner){
-        const index = Number(element.id);
-        squareIndex = index;
-        placePiece(index);
-        checkForWinner();
-        checkForTie();
-        switchPlayerTurn();
-        render();
-    }
+function resetSquareStates(){
+    messageEl.style.color = 'black';
+    squareEls.forEach(sqr=>{
+        setSquareState(sqr,'not-filled');
+    });
 }
-function placePiece(index){
-    board[index] = turn;
-}
-function checkForWinner(){
-    for(let combo of winningCombos){
-        let [A,B,C] = combo;
 
-        if(board[A] && board[A]==board[B] && board[B]==board[C]){
-            winner = true;
-            break;
+function highlightWin(combo){
+    squareEls.forEach((sqr, index) => {
+        if (combo.includes(index)) {
+            setSquareState(sqr, 'win');
+        }else if(!board[index]){
+            setSquareState(sqr, 'blocked');
         }
-    }
-}
-function checkForTie(){
-    if(winner)
-        return;
-
-    for(let sqr of board){
-        if(!sqr)
-            return;
-    }
-    tie = true;
-}
-function switchPlayerTurn(){
-    if(!winner){
-        if(turn == 'X')
-            turn = 'O';
-        else
-            turn = 'X';
-    }
+    });
 }
 
-
-//  init();
+function highlightTie(){
+    squareEls.forEach(sqr=>{
+        setSquareState(sqr,'tie');
+    })
+}
 
 /*----------------------------- Event Listeners -----------------------------*/
 boardEl.addEventListener('click', event => {
