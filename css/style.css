@@ -1,3 +1,11 @@
+:root{
+  --sqrColor: rgb(231, 231, 231);
+  --sqrHoverColor: rgba(47, 130, 207, 0.448);
+  --sqrActiveColor: rgba(47, 130, 207, 0.841);
+  --sqrBlockedColor: rgb(120, 120, 120);
+  --sqrWinColor: rgb(160, 215, 160);
+  --sqrTieColor: rgb(213, 115, 115);
+}
 body {
   background-color: gainsboro;
   /* Use a system font, if none are available use an available sans-sarif */
@@ -23,24 +31,32 @@ body {
   font-size: 64px;
   text-align: center;
   cursor: pointer;
-  background-color: #e7e7e7;
+  background-color: var(--sqrColor);
 }
-.sqr:hover{
-  background-color: rgba(47, 130, 207, 0.448);
+.not-filled:hover{
+  background-color: var(--sqrHoverColor);
 }
-.sqr:active{
-  background-color: rgba(47, 130, 207, 0.841);
+.not-filled:active{
+  background-color: var(--sqrActiveColor);
 }
-.sqr.blocked{
-  background-color: #787878;
+
+.blocked, .blocked:hover{
+  background-color: var(--sqrBlockedColor);
+  
 }
-.sqr.blocked:hover{
-  background-color: #787878;
-}
+
 .filled:hover, .filled:active{
-  background-color: #e7e7e7;
+  background-color: var(--sqrColor);
 
 }
+.win, .win:hover{
+  background-color: var(--sqrWinColor);
+}
+
+.tie, .tie:hover{
+  background-color: var(--sqrTieColor);
+}
+
 #reset{
   margin: 1.5rem;
   font-size: 25px;
