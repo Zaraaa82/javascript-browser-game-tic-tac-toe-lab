@@ -20,7 +20,7 @@
 ### O Wins
 ![O wins screenshot](screenshots/OWins.png)
 ### Reset screen
-![Reset screenshot](screenshots/resetqa.png)
+![Reset screenshot](screenshots/reset.png)
 
 
 
