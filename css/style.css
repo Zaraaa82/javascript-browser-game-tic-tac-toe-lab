@@ -3,6 +3,11 @@ body {
   /* Use a system font, if none are available use an available sans-sarif */
   font-family: system-ui, sans-serif;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .board {
@@ -17,4 +22,37 @@ body {
   border: 3px solid black;
   font-size: 64px;
   text-align: center;
+  cursor: pointer;
+  background-color: #e7e7e7;
+}
+.sqr:hover{
+  background-color: rgba(47, 130, 207, 0.448);
+}
+.sqr:active{
+  background-color: rgba(47, 130, 207, 0.841);
+}
+.sqr.blocked{
+  background-color: #787878;
+}
+.sqr.blocked:hover{
+  background-color: #787878;
+}
+.filled:hover, .filled:active{
+  background-color: #e7e7e7;
+
+}
+#reset{
+  margin: 1.5rem;
+  font-size: 25px;
+  border-radius: 30px;
+  padding: 10px 30px;
+  cursor: pointer;
+  transition: all .1s ease-in-out;
+}
+#reset:hover{
+  transform: translateY(-3px);
+}
+#reset:active{
+  background-color: rgb(120, 120, 120);
+  color: white;
 }
