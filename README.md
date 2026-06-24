@@ -10,8 +10,10 @@
 
 
 ## Description
+**Tic-Tac-Toe** is a web-based game that allows two players to take turns placing `X` and `O` on a game board. The application automatically manages player turns, detects winning and tie conditions, and allows the game to be reset for a new match.
 
 ## User Stories
+- 
 
 ## Screenshots
 ### Start Screen
